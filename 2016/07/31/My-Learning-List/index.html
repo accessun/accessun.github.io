@@ -15,7 +15,7 @@ Primitive type and refe">
 <meta property="og:description" content="This blog contains a list of points of knowledge that I’m about to learn or to review. This list will be changed frequently according to my needs and learning pace.
 Java Basics
 Primitive type and refe">
-<meta property="og:updated_time" content="2016-07-31T14:12:02.156Z">
+<meta property="og:updated_time" content="2016-07-31T23:18:27.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="My Learning List">
 <meta name="twitter:description" content="This blog contains a list of points of knowledge that I’m about to learn or to review. This list will be changed frequently according to my needs and learning pace.
@@ -58,9 +58,9 @@ Primitive type and refe">
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -99,6 +99,12 @@ Primitive type and refe">
 <li>Diffence with respect to their behavior in GC</li>
 </ul>
 </li>
+<li>Internals and implementations of commonly used data structures<ul>
+<li><code>LinkedList</code> and <code>ArrayList</code></li>
+<li><code>TreeMap</code></li>
+<li><code>Stack</code> and <code>BlockingQueue</code></li>
+</ul>
+</li>
 <li>GC<ul>
 <li>The implementation mechanism of GC</li>
 </ul>
@@ -113,27 +119,44 @@ Primitive type and refe">
 <li><code>volatile</code></li>
 <li><code>ThreadLocal</code> thread-safe?</li>
 <li>How is <code>ConcurrencyHashMap</code> implemented?</li>
+<li><code>CopyOnWrite</code>, thread pool, CAS, AQS, VM optimization</li>
 </ul>
 </li>
-<li>Internal mechanism of Java NIO</li>
+<li>Internal mechanism of Java IO/NIO</li>
 </ul>
 <h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><ul>
 <li>MyBatis<ul>
 <li>Basic usage</li>
-<li>Cache</li>
+<li>Caching in MyBatis</li>
+<li>How are cache and session managed by MyBatis</li>
 </ul>
 </li>
 <li>MySQL basics review</li>
 <li>MySQL performance and internals</li>
 </ul>
 <h2 id="Web-Frameworks"><a href="#Web-Frameworks" class="headerlink" title="Web Frameworks"></a>Web Frameworks</h2><ul>
-<li>Spring</li>
+<li>Spring<ul>
+<li>Concept of IOC/DI</li>
+<li>Concept of AOP</li>
+<li>Design pattern used in Spring</li>
+</ul>
+</li>
+</ul>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="http://watchmen.cn/portal.php" target="_blank" rel="external">Watchmen</a></li>
+<li><a href="http://blog.csdn.net/jackfrued/article/details/17339393" target="_blank" rel="external">Collections of Java interview questions</a></li>
+<li>MyBatis Caching<ul>
+<li><a href="http://www.cnblogs.com/selene/p/4638648.html" target="_blank" rel="external">link_1</a></li>
+<li><a href="http://my.oschina.net/dxqr/blog/123163" target="_blank" rel="external">link_2</a></li>
+<li><a href="http://blog.csdn.net/luanlouis/article/details/41408341" target="_blank" rel="external">link_3</a></li>
+</ul>
+</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/31/My-Learning-List/" data-id="ciraopq0z0000q4g0awoy0la8" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/07/31/My-Learning-List/" data-id="cirb8lxt20000r0g0mwi7ldod" class="article-share-link">Share</a>
       
       
     </footer>
@@ -144,7 +167,7 @@ Primitive type and refe">
   
   
     <a href="/2016/07/23/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
+      <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Hello World</div>
     </a>
   
@@ -177,7 +200,7 @@ Primitive type and refe">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
@@ -202,7 +225,7 @@ Primitive type and refe">
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 Xin Sun<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
