@@ -1,0 +1,713 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="database,SQL,MySQL,MongoDB," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Traditional relational database schema is often the most appropriate choice for most cases. At the beginning stage of development, designing a proper data relation often requires extensive thinking an">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A simple demonstration of data relation design using Entity-Attribute-Value model">
+<meta property="og:url" content="https://accessun.github.io/2016/08/31/A-simple-demonstration-of-data-relation-design-using-Entity-Attribute-Value-model/index.html">
+<meta property="og:site_name" content="Accessun's Blog">
+<meta property="og:description" content="Traditional relational database schema is often the most appropriate choice for most cases. At the beginning stage of development, designing a proper data relation often requires extensive thinking an">
+<meta property="og:updated_time" content="2016-08-31T15:07:38.531Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A simple demonstration of data relation design using Entity-Attribute-Value model">
+<meta name="twitter:description" content="Traditional relational database schema is often the most appropriate choice for most cases. At the beginning stage of development, designing a proper data relation often requires extensive thinking an">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://accessun.github.io/2016/08/31/A-simple-demonstration-of-data-relation-design-using-Entity-Attribute-Value-model/"/>
+
+  <title> A simple demonstration of data relation design using Entity-Attribute-Value model | Accessun's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Accessun's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                A simple demonstration of data relation design using Entity-Attribute-Value model
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-08-31T23:01:35+08:00" content="2016-08-31">
+              2016-08-31
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Traditional relational database schema is often the most appropriate choice for most cases. At the beginning stage of development, designing a proper data relation often requires extensive thinking and planning before diving into the real development stage. This is because the entity relations on which business logic is based upon is dependent on the relation of data in the database. Improper design of data relation may lead to difficulties and bad design patterns on the upper levels. Also, data relations serve real world demands. However, sometimes, demands are not quit fit into our well established and readily accepted relational schema. For example, say, we have a set of clinical experimental data. Suppose we have one sample which is represented by <code>sampleId</code> for each patient. And every patient has a <code>patientId</code> to be uniquely identified. So every record has three common columns: <code>id</code>, <code>sampleId</code>, <code>patientId</code>. Although each patient has one sample, different experiments that generate various kinds of data are carried out based on the samples the patients provided. Thus, every record for the patients may have different fields besides the three common fields. The block below is one possible example of three records. As we know, traditional relational database requires a fixed number of columns. If our preference is not to squeeze all the different fields into one column of string for all the patients, it is unrealistic to fit all the data into one table due to the varying number of fields for each record. Apparently, a new kind of design pattern is required.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[Record 1] id: 1, sampleId: &quot;s201608181738&quot;, patientId: &quot;p281641&quot;, expBl: &quot;pt90&quot;, expPT: 123.2</div><div class="line">[Record 2] id: 2, sampleId: &quot;s201608181739&quot;, patientId: &quot;p271632&quot;, expBl: &quot;pt90&quot;, expPT: 120.2, byProduct: &quot;sap_protein&quot;</div><div class="line">[Record 3] id: 3, sampleId: &quot;s201608181740&quot;, patientId: &quot;p278435&quot;, axLevel: &quot;A&quot;, flowRate: 59.6</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>One model that suits this kind of scenario is <a href="https://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model" target="_blank" rel="external">Entity-Attribute-Value Model</a>. The three common fields in our case can be extracted into an entity table <code>BASE_INFO</code> which stores the common information for all the patients. Each record in the entity table has a set of attribute-value pairs which are specified in the attribute table named <code>EXTRA_ATTR</code>. In <code>EXTRA_ATTR</code>, <code>entityId</code> column is add a foreign key constraint that references the <code>id</code> field in <code>BASE_INFO</code>. The following two tables signify how the above three records are arranged into tables using EAV model.</p>
+<p><strong>Entity Table: BASE_INFO</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>sampleId</th>
+<th>patientId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>s201608181738</td>
+<td>p281641</td>
+</tr>
+<tr>
+<td>2</td>
+<td>s201608181739</td>
+<td>p271632</td>
+</tr>
+<tr>
+<td>3</td>
+<td>s201608181740</td>
+<td>p278435</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attribute Table: EXTRA_ATTR</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>entityId</th>
+<th>attrName</th>
+<th>attrValue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>expBl</td>
+<td>pt90</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>expPt</td>
+<td>123.2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>expBl</td>
+<td>pt90</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>expPt</td>
+<td>120.2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>byProduct</td>
+<td>sap_protein</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3</td>
+<td>axLevel</td>
+<td>A</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>flowRate</td>
+<td>59.6</td>
+</tr>
+</tbody>
+</table>
+<p>Once data relation was determined, checking out all of the optional fields (fields that are not common for all records) can be easily performed by one simple line of SQL query:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> attrName, <span class="keyword">GROUP_CONCAT</span>(entityId) <span class="keyword">AS</span> <span class="string">"containedEntityId"</span></div><div class="line"><span class="keyword">FROM</span> EXTRA_ATTR</div><div class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> attrName</div><div class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> attrName;</div></pre></td></tr></table></figure>
+<p>The queried result is:</p>
+<table>
+<thead>
+<tr>
+<th>attrName</th>
+<th>containedEntityId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>axLevel</td>
+<td>3</td>
+</tr>
+<tr>
+<td>byProduct</td>
+<td>2</td>
+</tr>
+<tr>
+<td>expBl</td>
+<td>1,2</td>
+</tr>
+<tr>
+<td>expPt</td>
+<td>1,2</td>
+</tr>
+<tr>
+<td>flowRate</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>In this query, the first column <code>attrName</code> lists all the optional attributes appeared in the table <code>EXTRA_ATTR</code>. The second column presents the IDs of entity that contains each optional attribute. Based what optional attribute we want to extract, we can perform a query the for the complete set of fields for every record.</p>
+<p>For instance, in the above query, we’ve already known that both the entities that correspond to ID 1 and ID 2 have two common optional attributes which are <code>expBl</code> and <code>expPt</code>. We now can query basic information including these two optional common attribute by joining tables.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> b.<span class="string">`id`</span>, b.<span class="string">`patientId`</span>, b.<span class="string">`sampleId`</span>, e.<span class="string">`attrValue`</span> <span class="keyword">AS</span> <span class="string">"expBl"</span>, e1.<span class="string">`attrValue`</span> <span class="keyword">AS</span> <span class="string">"expPt"</span></div><div class="line"><span class="keyword">FROM</span> BASE_INFO b</div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> EXTRA_ATTR e</div><div class="line"><span class="keyword">ON</span> e.<span class="string">`entityId`</span> = b.<span class="string">`id`</span> <span class="keyword">AND</span> e.<span class="string">`attrName`</span> = <span class="string">"expBl"</span></div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> EXTRA_ATTR e1</div><div class="line"><span class="keyword">ON</span> e1.<span class="string">`entityId`</span> = b.<span class="string">`id`</span> <span class="keyword">AND</span> e1.<span class="string">`attrName`</span> = <span class="string">"expPt"</span></div><div class="line"><span class="keyword">WHERE</span> b.id <span class="keyword">IN</span> (<span class="number">1</span>, <span class="number">2</span>);</div></pre></td></tr></table></figure>
+<p>The result is:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>patientId</th>
+<th>sampleId</th>
+<th>expBl</th>
+<th>expPt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>p281641</td>
+<td>s201608181738</td>
+<td>pt90</td>
+<td>123.2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>p271632</td>
+<td>s201608181739</td>
+<td>pt90</td>
+<td>120.2</td>
+</tr>
+</tbody>
+</table>
+<p>The above is a simple demonstration of how to use EAV model in practice. The advatanges of using EAV model lies in the flexibility in custom columns, especially when certain attributes may be included after database structure is determined or may not be quite common for different records. However, there are tradeoffs for this flexibility. The basic one is that this design pattern blatantly goes against <a href="https://en.wikipedia.org/wiki/Database_normalization" target="_blank" rel="external">database normalization</a>. We can see that, in the table <code>EXTRA_ATTR</code>, a considerable amount of data redundancy is introduced into database. Besides, all the attribute values reside in one column of type <code>VARCHAR</code> in <code>EXTRA_ATTR</code>, which means we’ve lost constraints of data type in database level. Another point is that the query statement relatively complex and part of it has to be dynamically generated based on which optional fields the client wants to query. The query statement involves quite a lot self-joining of attribute table when one wants to query many optional attributes. This leads to a significantly degraded performance.</p>
+<p>EAV model does have its place in database design. However, this model is not quite relational. And applying it means that you have to lose some good things relational database there is to offer, such as precise data type constraints and properly arranging them in an intact <a href="https://en.wikipedia.org/wiki/Database_schema" target="_blank" rel="external">database schema</a>. My opinion is that use it only if you have to. One alternative choice is to use document based <a href="https://en.wikipedia.org/wiki/NoSQL" target="_blank" rel="external">NoSQL</a> database like <a href="https://en.wikipedia.org/wiki/MongoDB" target="_blank" rel="external">MongoDB</a>. MongoDB arranges data into documents. A document corresponds to a <a href="http://www.json.org/" target="_blank" rel="external">JSON</a> object in database, though it is internally implemented by <a href="https://www.mongodb.com/json-and-bson" target="_blank" rel="external">BSON</a> (Binary encoded JSON like document). One can view a document as a record in relational database. All the documents are arranged into a collection, which is to some degree similar to the concept of table in relational database. One great flexibility of adopting document base database is that one is not constraint by relational schema at all. Documents in a collection can have different fields and different number of fields. So, the three records in our above example looks like the following JSON like documents in MongoDB:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="attr">"_id"</span>: ObjectId(<span class="string">"57c183f24d8b1fe3db9bc6ab"</span>), <span class="attr">"sampleId"</span>: <span class="string">"s201608181738"</span>, <span class="attr">"patientId"</span>: <span class="string">"p281641"</span>, <span class="attr">"expBl"</span>: <span class="string">"pt90"</span>, <span class="attr">"expPT"</span>: <span class="number">123.2</span> &#125;</div><div class="line">&#123; <span class="attr">"_id"</span>: ObjectId(<span class="string">"57c183f24d8b1fe3db9bc6ac"</span>), <span class="attr">"sampleId"</span>: <span class="string">"s201608181739"</span>, <span class="attr">"patientId"</span>: <span class="string">"p271632"</span>, <span class="attr">"expBl"</span>: <span class="string">"pt90"</span>, <span class="attr">"expPT"</span>: <span class="number">120.2</span>, <span class="attr">"byProduct"</span>: <span class="string">"sap_protein"</span> &#125;</div><div class="line">&#123; <span class="attr">"_id"</span>: ObjectId(<span class="string">"57c183f24d8b1fe3db9bc6ad"</span>), <span class="attr">"sampleId"</span>: <span class="string">"s201608181740"</span>, <span class="attr">"patientId"</span>: <span class="string">"p278435"</span>, <span class="attr">"axLevel"</span>: <span class="string">"A"</span>, <span class="attr">"flowRate"</span>: <span class="number">59.6</span> &#125;</div></pre></td></tr></table></figure>
+<p>Here, we only have a taste of MongoDB. I’ll write a dedicated post for it later.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/database/" rel="tag">#database</a>
+          
+            <a href="/tags/SQL/" rel="tag">#SQL</a>
+          
+            <a href="/tags/MySQL/" rel="tag">#MySQL</a>
+          
+            <a href="/tags/MongoDB/" rel="tag">#MongoDB</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/13/Set-Up-Git-Environment-To-Test-Out-Collaboration-Workflow/" rel="next" title="Set Up Git Environment To Test Out Collaboration Workflow">
+                <i class="fa fa-chevron-left"></i> Set Up Git Environment To Test Out Collaboration Workflow
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Xin Sun" />
+          <p class="site-author-name" itemprop="name">Xin Sun</p>
+          <p class="site-description motion-element" itemprop="description">Let it be</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xin Sun</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
