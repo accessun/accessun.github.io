@@ -84,22 +84,22 @@
 
 
 
-<meta name="description" content="This blog contains a list of points of knowledge that I’m about to learn or to review. This list will be changed frequently according to my needs and learning pace.
-Java Basics
-Primitive type and refe">
+<meta name="description" content="Here is a list of points of knowledge I prepared for myself to learn or to review in order to be an advanced Java backend developer.
+Java Fundamentals
+Collection, java.util.concurrent, IO/NIO, reflect">
 <meta property="og:type" content="article">
-<meta property="og:title" content="My Learning List">
-<meta property="og:url" content="https://accessun.github.io/2016/07/31/My-Learning-List/index.html">
+<meta property="og:title" content="Learning Plan for a Java Backend Developer">
+<meta property="og:url" content="https://accessun.github.io/2016/07/31/Learning-Plan-for-a-Java-Backend-Developer/index.html">
 <meta property="og:site_name" content="Accessun's Blog">
-<meta property="og:description" content="This blog contains a list of points of knowledge that I’m about to learn or to review. This list will be changed frequently according to my needs and learning pace.
-Java Basics
-Primitive type and refe">
-<meta property="og:updated_time" content="2016-08-09T13:09:53.543Z">
+<meta property="og:description" content="Here is a list of points of knowledge I prepared for myself to learn or to review in order to be an advanced Java backend developer.
+Java Fundamentals
+Collection, java.util.concurrent, IO/NIO, reflect">
+<meta property="og:updated_time" content="2016-09-30T12:06:25.743Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="My Learning List">
-<meta name="twitter:description" content="This blog contains a list of points of knowledge that I’m about to learn or to review. This list will be changed frequently according to my needs and learning pace.
-Java Basics
-Primitive type and refe">
+<meta name="twitter:title" content="Learning Plan for a Java Backend Developer">
+<meta name="twitter:description" content="Here is a list of points of knowledge I prepared for myself to learn or to review in order to be an advanced Java backend developer.
+Java Fundamentals
+Collection, java.util.concurrent, IO/NIO, reflect">
 
 
 
@@ -120,9 +120,9 @@ Primitive type and refe">
 
 
 
-  <link rel="canonical" href="https://accessun.github.io/2016/07/31/My-Learning-List/"/>
+  <link rel="canonical" href="https://accessun.github.io/2016/07/31/Learning-Plan-for-a-Java-Backend-Developer/"/>
 
-  <title> My Learning List | Accessun's Blog </title>
+  <title> Learning Plan for a Java Backend Developer | Accessun's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -242,7 +242,7 @@ Primitive type and refe">
             
             
               
-                My Learning List
+                Learning Plan for a Java Backend Developer
               
             
           </h1>
@@ -282,60 +282,77 @@ Primitive type and refe">
       
 
       
-        <p>This blog contains a list of points of knowledge that I’m about to learn or to review. This list will be changed frequently according to my needs and learning pace.</p>
-<h2 id="Java-Basics"><a href="#Java-Basics" class="headerlink" title="Java Basics"></a>Java Basics</h2><ul>
-<li>Primitive type and reference type<ul>
-<li>Difference in memory storage</li>
-<li>Performance</li>
-<li>Diffence with respect to their behavior in GC</li>
+        <p>Here is a list of points of knowledge I prepared for myself to learn or to review in order to be an advanced Java backend developer.</p>
+<h3 id="Java-Fundamentals"><a href="#Java-Fundamentals" class="headerlink" title="Java Fundamentals"></a>Java Fundamentals</h3><ul>
+<li>Collection, <code>java.util.concurrent</code>, <strong>IO/NIO</strong>, reflection</li>
 </ul>
-</li>
-<li>Internals and implementations of commonly used data structures<ul>
-<li><code>LinkedList</code> and <code>ArrayList</code></li>
-<li><code>TreeMap</code></li>
-<li><code>Stack</code> and <code>BlockingQueue</code></li>
+<blockquote>
+<p>NIO: overview of <a href="http://www.infoq.com/cn/articles/netty-high-performance/" target="_blank" rel="external">netty</a>; review the source of <a href="http://netty.io/" target="_blank" rel="external">netty</a></p>
+</blockquote>
+<ul>
+<li>Dynamic proxy, CGLIB</li>
 </ul>
-</li>
-<li>GC<ul>
-<li>The implementation mechanism of GC</li>
+<blockquote>
+<p>How to generate proxy class</p>
+</blockquote>
+<ul>
+<li>JVM, JMM (JVM Memory Model)</li>
 </ul>
-</li>
-<li>String<ul>
-<li>Difference between <code>String</code> and <code>StringBuilder</code></li>
-<li>String literal and String object</li>
-</ul>
-</li>
-<li>Multithreading<ul>
-<li>The effective scope of <code>synchronized</code></li>
-<li><code>volatile</code></li>
-<li><code>ThreadLocal</code> thread-safe?</li>
-<li>How is <code>ConcurrencyHashMap</code> implemented?</li>
-<li><code>CopyOnWrite</code>, thread pool, CAS, AQS, VM optimization</li>
-</ul>
-</li>
-<li>Internal mechanism of Java IO/NIO</li>
-</ul>
-<h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><ul>
-<li>MyBatis<ul>
-<li>Basic usage</li>
-<li>Caching in MyBatis</li>
-<li>How are cache and session managed by MyBatis</li>
-</ul>
-</li>
-<li>MySQL basics review</li>
-<li>MySQL performance and internals</li>
-</ul>
-<h2 id="Web-Frameworks"><a href="#Web-Frameworks" class="headerlink" title="Web Frameworks"></a>Web Frameworks</h2><ul>
+<blockquote>
+<p>Mechanism of garbage collection (CMS GC + G1 GC)<br>JMM: refer to java language specification<br>JVM optimization: <strong>parameter optimization</strong><br>ConcurrentHashMap, CopyOnWrite, Thread pool, CAS, AQS</p>
+</blockquote>
+<h3 id="Commonly-used-Frameworks"><a href="#Commonly-used-Frameworks" class="headerlink" title="Commonly used Frameworks"></a>Commonly used Frameworks</h3><ul>
 <li>Spring<ul>
-<li>Concept of IOC/DI</li>
-<li>Concept of AOP</li>
-<li>Design pattern used in Spring</li>
+<li>IOC/AOP (design patterns): just skip through its source code</li>
+<li>Source code level</li>
+</ul>
+</li>
+<li>MyBatis<ul>
+<li>Source code level</li>
 </ul>
 </li>
 </ul>
-<h2 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h2><ul>
-<li>HTTP internals</li>
-<li>Algorithms and data structures</li>
+<h3 id="Database"><a href="#Database" class="headerlink" title="Database"></a>Database</h3><ul>
+<li>MySQL<ul>
+<li>common practice of parameter settings</li>
+<li>how to choose storage engine</li>
+<li>how to choose index engine</li>
+<li>table design</li>
+<li>SQL optimization</li>
+</ul>
+</li>
+<li>Redis<ul>
+<li>internals</li>
+<li>common practice of parameter settings</li>
+</ul>
+</li>
+</ul>
+<h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><ul>
+<li>HTTP Protocol: wikipedia</li>
+<li>SOA: wikipedia</li>
+<li>Caching<ul>
+<li>Guava cache</li>
+<li>memcached</li>
+<li>redis</li>
+</ul>
+</li>
+<li>Serialization (Google protocol buffer)</li>
+<li>RPC<ul>
+<li>dubbo</li>
+</ul>
+</li>
+<li>JMS<ul>
+<li>internals</li>
+</ul>
+</li>
+</ul>
+<h3 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h3><ul>
+<li>Algorithm &amp; Data structure<ul>
+<li>&lt;= Red-black tree</li>
+<li>IOC/AOP</li>
+<li>Design pattern (~ 15) ~&gt; Wikipedia</li>
+</ul>
+</li>
 </ul>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
 <li><a href="http://watchmen.cn/portal.php" target="_blank" rel="external">Watchmen</a></li>
@@ -489,7 +506,7 @@ Primitive type and refe">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-Basics"><span class="nav-number">1.</span> <span class="nav-text">Java Basics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL"><span class="nav-number">2.</span> <span class="nav-text">SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-Frameworks"><span class="nav-number">3.</span> <span class="nav-text">Web Frameworks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basics"><span class="nav-number">4.</span> <span class="nav-text">Basics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-Fundamentals"><span class="nav-number">1.</span> <span class="nav-text">Java Fundamentals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Commonly-used-Frameworks"><span class="nav-number">2.</span> <span class="nav-text">Commonly used Frameworks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Database"><span class="nav-number">3.</span> <span class="nav-text">Database</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web"><span class="nav-number">4.</span> <span class="nav-text">Web</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Basics"><span class="nav-number">5.</span> <span class="nav-text">Basics</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number"></span> <span class="nav-text">References</span></a></div>
             
           </div>
         </section>
