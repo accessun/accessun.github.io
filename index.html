@@ -51,9 +51,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://accessun.github.io"></form>
@@ -63,6 +63,96 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-Workable-Steps-to-Set-up-Maven-in-Eclipse" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/17/Workable-Steps-to-Set-up-Maven-in-Eclipse/" class="article-date">
+  <time datetime="2016-12-17T09:24:57.000Z" itemprop="datePublished">2016-12-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/17/Workable-Steps-to-Set-up-Maven-in-Eclipse/">Workable Steps to Set up Maven in Eclipse</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Tested on Windows 10, in Eclipse Neon/Eclipse Neon.1 (the version for Java EE developers), using Maven 3.3.9 (externally installed, not the embedded one in Eclipse)</p>
+<p>First <a href="https://maven.apache.org/download.cgi" target="_blank" rel="external">download Maven</a> and follow the installation steps on <a href="https://www.tutorialspoint.com/maven/maven_environment_setup.htm" target="_blank" rel="external">TutorialsPoint</a>.</p>
+<p>Then, go to the <code>M2_HOME</code> directory. In my case, it is <code>D:\apache-maven-3.3.9</code>. Open the <code>settings.xml</code> in the <code>conf/</code> directory. We need to overwrite two default settings. One is for Maven repository, or simply called repo, the other is about the default jdk for compilation.</p>
+<p>If you live in China, it is highly recommended that you use a reliable Maven mirror whose server is physically located in China. Because lots of sites are blocked and most of the unblocked ones are really slow. The following one is maintained by Alibaba. I’ve used it for quite a while. It works pretty good, at least for the moment this post is written.</p>
+<p>Add the following piece of xml code under the <code>&lt;mirrors&gt;</code> element.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-aliyun<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus aliyun<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Change the default compiler to the version of the jdk you are using (default is 1.5 if you do not have this configured). In my case, I use jdk-1.8.</p>
+<p>Add the following piece of xml code under the <code>&lt;profiles&gt;</code> element.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">profile</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">id</span>&gt;</span>jdk-1.8<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">activation</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">activation</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">profile</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Then, we need to configure Maven in Eclipse.</p>
+<ol>
+<li>In the Eclipse menu, click “Window” and select “Preferences”</li>
+<li>Expand the tag “Maven” and select “Installations”</li>
+<li>Click “Add…” button to the right. In the poped up “New Maven Runtime” dialog window, choose the “External” installation type and specify the installation home for Maven. (In my case, the installation home is <code>D:\apache-maven-3.3.9</code>)</li>
+<li>Click “Finish”</li>
+<li>Back to the “Preference” dialog window, in the “Select the installation used to launch Maven”, select the external maven installation you’ve just added. (Not the “EMBEDDED” one or “WORKSPACE” one)</li>
+<li>Click “Apply”</li>
+<li>Back to the “Maven” tag to the left, select the “User Settings” sub-tag. Specify the setting file we’ve just modified for both “Global Settings” and “User Settings”. In my case the path of the file is <code>D:\apache-maven-3.3.9\conf\settings.xml</code>. The “Local Repository” should stay default, unless you’ve changed the path of your local maven repository.</li>
+<li>Click “OK”</li>
+</ol>
+<p>For now, we have done the installation and configurations. Let’us move on to the core topic of working with Maven in Eclipse IDE.</p>
+<p>For day-to-day development, two common projects we use are “Java Project” for Java SE development and “Dynamic Web Project” for Java Web development. So, the question is how to incorporate the two kinds of Eclipse projects into their respective Maven projects without sacrificing the day-to-day development workflow in the Eclipse projects that you are familiar with.</p>
+<p>Let’s deal with the “Java project” first.</p>
+<ol>
+<li>In the Eclipse menu, click “File”, select “New”, and choose “Others…”</li>
+<li>In the pop-up window, type “maven” in the “type filter text” search bar, then select “Maven Project” and click “Next &gt;”</li>
+<li>Check the “Create a simple project (skip archetype selection)” checkbox. Click “Next &gt;”</li>
+<li>Specify the artifact for your project. In my case, the group ID is “io.github.accessun” (my blog site in reversed order), the artifact ID is “PlainJavaProject”, the version number is “0.0.1-SNAPSHOT”, the packaging is “jar”. And just leave other fields empty. Then click “Finish”</li>
+</ol>
+<p>Alright, done! You can see both the Eclipse source folders and real directory structure in the Project Explorer. Go edit your <code>pom.xml</code> and write some Java code!</p>
+<p><img src="/images/maven-plain-java-project.png" alt="maven-plain-java-project"></p>
+<p>It is a little bit tricky and odd of the way to set up Maven project for Java web development in Eclipse. The followings are the steps:</p>
+<ol>
+<li>In the Eclipse menu, click “File”, select “New”, and choose “Others…”</li>
+<li>In the pop-up window, type “maven” in the “type filter text” search bar, then select “Maven Project” and click “Next &gt;”</li>
+<li>Check the “Create a simple project (skip archetype selection)” checkbox. Click “Next &gt;” (Yeah! Do trust my again this time! Select this option even for Java web projects. You can experiment with the archetype selection. I did that. But… the resulted setup turns out to be weird. I don’t know why. Maybe this is the Eclipse way, huh?)</li>
+<li>Specify the artifact settings for group ID, artifact ID, and version just like the above settings for Java project. However, this time you should select “war” for the “Packaging” selection. This indicates that this Maven project is a Java web project.</li>
+<li>Click “Finish”</li>
+<li>You’ll notice that there is an error symbol on the project. Don’t panic. This is expected. Right click on the project in the Project Explorer. Then, choose “Properties”.</li>
+<li>Choose “Project Facets” to the left. Uncheck the “Dynamic Web Module”. Click “Apply”</li>
+<li>Check the “Dynamic Web Module” again. Then there will be a link called “Further configuration available…” appear below. Click on it.</li>
+<li>In the popup window, change the “Content directory” from “WebContent” to “<code>src/main/webapp</code>“. Check the “Generate web.xml deployment descriptor” option. Click “OK”. Click “OK” again.</li>
+</ol>
+<p>Now, we have the basic setup of a Maven project for Java web development in Eclipse. The “<code>src/main/webapp</code>“ directory is equivalent to the “WebContent” directory in a “Dynamic Web Project” of Eclipse. You can see the <code>web.xml</code> file in the “WEB-INF” directory.</p>
+<p><img src="/images/maven-java-web-project.png" alt="maven-java-web-project"></p>
+<p>Another thing that should be mentioned is that the auto generated <code>web.xml</code> in the settings above is based on web-app version 2.5:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/javaee"</span></span></div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span></div><div class="line">    <span class="attr">id</span>=<span class="string">"WebApp_ID"</span> <span class="attr">version</span>=<span class="string">"2.5"</span> /&gt;</div></pre></td></tr></table></figure>
+<p>Changed it to the new 3.1 version if you like. Just copy and replace the code below. This 3.1 version code is auto generated by Eclipse for the “Dynamic Web Project”. So you can safely use it.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee"</span></span></div><div class="line">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"</span></div><div class="line">  <span class="attr">id</span>=<span class="string">"WebApp_ID"</span> <span class="attr">version</span>=<span class="string">"3.1"</span>&gt;</div><div class="line">  <span class="comment">&lt;!-- Your web.xml setting goes here --&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>The final thing that I would also like to mention is that if you create jsp file in the webapp directory, you’ll probably get an error saying that “The superclass javax.servlet.http.HttpServlet was not found on the Java Build Path”. This is because you haven’t specify the servlet and JSP dependencies for Java web development. Just open the <code>pom.xml</code> file and add the following two dependencies under the <code>&lt;dependencies&gt;</code> element. Note that the scope should be set to <code>provided</code> since if you give them a <code>compile</code> scope, the two dependencies will be added to your compiled project. This may cause a collision with the servlet and JSP APIs provided by the servlet container, say Tomcat. <code>provided</code> ensures that the two dependencies are only effective when needed during the development process. After deployment, the corresponding APIs from the actual container is used instead.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsp-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Alright. Now we have our topic covered. Happing coding!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://accessun.github.io/2016/12/17/Workable-Steps-to-Set-up-Maven-in-Eclipse/" data-id="ciwt1gn19000bpog09d9ju03a" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-Setting-up-a-Simple-Automated-Front-end-Dev-Workflow" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -102,7 +192,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://accessun.github.io/2016/11/18/Setting-up-a-Simple-Automated-Front-end-Dev-Workflow/" data-id="civon6j0c0008pog0slv6icm5" class="article-share-link">Share</a>
+      <a data-url="https://accessun.github.io/2016/11/18/Setting-up-a-Simple-Automated-Front-end-Dev-Workflow/" data-id="ciwt1gn0v0008pog0ypsi70o3" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Front-end/">Front-end</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gulp/">Gulp</a></li></ul>
@@ -169,7 +259,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://accessun.github.io/2016/10/16/Make-a-Tape-Photo-by-CSS/" data-id="civon6j030005pog02jeql60t" class="article-share-link">Share</a>
+      <a data-url="https://accessun.github.io/2016/10/16/Make-a-Tape-Photo-by-CSS/" data-id="ciwt1gn0n0005pog0107cnd2y" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Front-end/">Front-end</a></li></ul>
@@ -223,7 +313,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://accessun.github.io/2016/09/18/Java-initialization-blocks/" data-id="civon6izh0002pog0q9wxgtlw" class="article-share-link">Share</a>
+      <a data-url="https://accessun.github.io/2016/09/18/Java-initialization-blocks/" data-id="ciwt1gn040002pog0te9wqycs" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -413,7 +503,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://accessun.github.io/2016/08/31/A-simple-demonstration-of-data-relation-design-using-Entity-Attribute-Value-model/" data-id="civon6iz20000pog0xykja918" class="article-share-link">Share</a>
+      <a data-url="https://accessun.github.io/2016/08/31/A-simple-demonstration-of-data-relation-design-using-Entity-Attribute-Value-model/" data-id="ciwt1gmzj0000pog0w6t6aces" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/database/">database</a></li></ul>
@@ -480,7 +570,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://accessun.github.io/2016/08/13/Set-Up-Git-Environment-To-Test-Out-Collaboration-Workflow/" data-id="civon6j070007pog0nnsh2o5v" class="article-share-link">Share</a>
+      <a data-url="https://accessun.github.io/2016/08/13/Set-Up-Git-Environment-To-Test-Out-Collaboration-Workflow/" data-id="ciwt1gn0s0007pog02lzkig3o" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
@@ -601,7 +691,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://accessun.github.io/2016/07/31/Learning-Plan-for-a-Java-Backend-Developer/" data-id="civon6izy0004pog05dsh09a1" class="article-share-link">Share</a>
+      <a data-url="https://accessun.github.io/2016/07/31/Learning-Plan-for-a-Java-Backend-Developer/" data-id="ciwt1gn0f0004pog0snszofqs" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -646,7 +736,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://accessun.github.io/2016/07/23/hello-world/" data-id="civon6j0m0009pog0gtuzv92j" class="article-share-link">Share</a>
+      <a data-url="https://accessun.github.io/2016/07/23/hello-world/" data-id="ciwt1gn150009pog05ae3lf6p" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -666,9 +756,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Mot-clés</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Front-end/">Front-end</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Front-end/">Front-end</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li></ul>
     </div>
   </div>
 
@@ -676,18 +766,18 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nuage de mot-clés</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Front-end/" style="font-size: 20px;">Front-end</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a>
+      <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Front-end/" style="font-size: 20px;">Front-end</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Arkiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li></ul>
     </div>
   </div>
 
@@ -695,9 +785,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Siste innlegg</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/17/Workable-Steps-to-Set-up-Maven-in-Eclipse/">Workable Steps to Set up Maven in Eclipse</a>
+          </li>
         
           <li>
             <a href="/2016/11/18/Setting-up-a-Simple-Automated-Front-end-Dev-Workflow/">Setting up a Simple Automated Front-end Dev Workflow</a>
@@ -715,10 +809,6 @@
             <a href="/2016/08/31/A-simple-demonstration-of-data-relation-design-using-Entity-Attribute-Value-model/">A simple demonstration of data relation design using Entity-Attribute-Value model</a>
           </li>
         
-          <li>
-            <a href="/2016/08/13/Set-Up-Git-Environment-To-Test-Out-Collaboration-Workflow/">Set Up Git Environment To Test Out Collaboration Workflow</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -732,7 +822,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 Xin Sun<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
