@@ -21,7 +21,7 @@
 1234567891011121314151617181920">
 <meta property="og:image" content="https://accessun.github.io/images/volatile-write.png">
 <meta property="og:image" content="https://accessun.github.io/images/volatile-read.png">
-<meta property="og:updated_time" content="2017-03-05T06:43:23.581Z">
+<meta property="og:updated_time" content="2017-03-12T12:10:41.941Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="What the heck is the volatile keyword and why use it">
 <meta name="twitter:description" content="ProblemThe result of some operation on shared resources by multiple threads can cause trouble as well as confusion sometimes. The following code is one of the examples:
@@ -52,7 +52,7 @@
 				<h1 class="site-name"><a href="/" title="Accessun&#39;s Blog">Accessun&#39;s Blog</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -68,7 +68,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:accessun.github.io">
 					</form>
 					
@@ -91,23 +91,23 @@
 		<a href="/about" title="Xin Sun" target="_blank" itemprop="author">Xin Sun</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-05T06:37:45.000Z" itemprop="datePublished"> Published 2017-03-05</time>
+    <time datetime="2017-03-05T06:37:45.000Z" itemprop="datePublished"> 发表于 2017-03-05</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-the-volatile-keyword"><span class="toc-number">2.</span> <span class="toc-text">Using the volatile keyword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Effect-of-declaring-a-variable-as-volatile"><span class="toc-number">3.</span> <span class="toc-text">Effect of declaring a variable as volatile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread-safety-not-guaranteed"><span class="toc-number">4.</span> <span class="toc-text">Thread safety not guaranteed</span></a></li></ol>
 		
 		</div>
 		
 		<h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><p>The result of some operation on shared resources by multiple threads can cause trouble as well as confusion sometimes. The following code is one of the examples:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// the static variale `stop` is shared by the threads started below</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">boolean</span> stop = <span class="keyword">false</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="comment">// started a new thread with the name of WRITE-THREAD</span></div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            stop = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;, <span class="string">"WRITE-THREAD"</span>).start();</div><div class="line"></div><div class="line">    <span class="comment">// started a new thread with the name of READ-THREAD</span></div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">while</span> (!stop) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;, <span class="string">"READ-THREAD"</span>).start();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>If one compiles and then runs this piece of code, most likely that it will terminated successfully. The READ-THREAD keeps executing the while loop if the <code>stop</code> is <code>false</code>. When the WRITE-THREAD sets the <code>stop</code> to <code>true</code>, the READ-THREAD should terminates immediately. Another possible executing process is that the <code>stop</code> is set to <code>true</code> even before the execution of READ-THREAD. It seems that this piece of code will never cause any trouble the programmer. However, in some rare cases, the program never terminates. So what causes this unexpected result?</p>
-<p>To make the problem more prominent, one can make the WRITE-THREAD sleep for a while before execute the <code>stop = true;</code> statement. So the code of WRITE-THREAD becomes:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// the static variable `stop` is shared by the threads started below</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">boolean</span> stop = <span class="keyword">false</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="comment">// started a new thread with the name of WRITE-THREAD</span></div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            stop = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;, <span class="string">"WRITE-THREAD"</span>).start();</div><div class="line"></div><div class="line">    <span class="comment">// started a new thread with the name of READ-THREAD</span></div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">while</span> (!stop) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;, <span class="string">"READ-THREAD"</span>).start();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>If one compiles and then runs this piece of code, most likely that it will terminated successfully. The READ-THREAD keeps executing the while loop if the <code>stop</code> is <code>false</code>. When the WRITE-THREAD sets the <code>stop</code> to <code>true</code>, the READ-THREAD should terminate immediately. Another possible executing process is that the <code>stop</code> is set to <code>true</code> even before the execution of READ-THREAD. It seems that this piece of code will never cause any trouble the programmer. However, in some rare cases, the program never terminates. What causes this unexpected result?</p>
+<p>To make the problem more prominent, one can make the WRITE-THREAD sleep for a while before execute the <code>stop = true;</code> statement. Then the code of WRITE-THREAD becomes:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Thread.sleep(<span class="number">100</span>); <span class="comment">// block this thread for 100 ms</span></div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        stop = <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;, <span class="string">"WRITE-THREAD"</span>).start();</div></pre></td></tr></table></figure>
 <p>Then re-compile and run the piece of code again. The problem surfaces. The execution of READ-THREAD is trapped inside the <code>while</code> loop. The expected the execution flow should be like this:</p>
 <ol>
@@ -123,22 +123,22 @@
 <p>However, in reality, the loop continues. So the <code>stop</code> is never changed by the WRITE-THREAD. How is this possible?</p>
 <p>In order to uncover the cause of this problem, we have to have a bit knowledge of how threads read and write the value of variables from memory.</p>
 <p>When a thread takes a read/write operation on a value, the operation may happen either from main memory or the CPU cache used by the thread. The CPU cache used by the thread is local to the thread itself. The cache is used for performance considerations, so that a read/write operation can just occur in the cache rather than in the main memory which is more expensive for threads to perform such operations.</p>
-<p>For a typical write operation, the thread writes to the CPU cache that is local to the thread first. And then the writen value is flushed to the main memory. However, one cannot decide for sure that the flush occurs. Likewise, in some scenarios, the read operation may just occur in the cache for the read thread.</p>
-<p>Think of this: the execution flow of a read thread is determined by a shared variable. Another thread changed to value of the shared variable but the change was’t flushed to the memory in time. Or the change had been flushed to the memory, but for some reasons, the read operation reads the value of the shared variable from its CPU cache instead of the main memory. Unexpected results can surely arise from such a situation.</p>
+<p>For a typical write operation, the thread writes to the CPU cache that is local to the thread first. And then the written value is flushed to the main memory. However, one cannot decide for sure that the flush occurs. Likewise, in some scenarios, the read operation may just occur in the cache for the read thread.</p>
+<p>Think of this: the execution flow of a read thread is determined by a shared variable. Another thread changed to value of the shared variable but the change hasn’t been flushed to the memory in time. Or the change had been flushed to the memory, but for some reasons, the read operation reads the value of the shared variable from its CPU cache instead of the main memory. Unexpected results can surely arise from such a situation.</p>
 <p>Back to our previous code. When the WRITE-THREAD starts, it goes immediately into blocked state due to the invocation of <code>Thread.sleep(100)</code>. Now, the READ-THREAD goes into the <code>while</code> loop and stays in the loop. After 100 milliseconds, the WRITE-THREAD wakes up and updated the value of <code>stop</code>. Chances are the updated value, which is <code>true</code> now, is flushed to the main memory. But the while loop is so optimized that it just busy reading from its local cache and hasn’t had a chance to look into the main memory. So the loop never breaks.</p>
-<h3 id="Using-the-volatile-keyword"><a href="#Using-the-volatile-keyword" class="headerlink" title="Using the volatile keyword"></a>Using the <code>volatile</code> keyword</h3><p>So the question is how can we guarantee that read/write of a variable is read from or written to the main memory instead of the CPU cache local to the thread that is operating on the value.</p>
-<p>The answer is the <code>volatile</code> keyword. By declaring a variable as <code>volatile</code>, we tells the program any write operation to the variable should be immediately flushed to the main memory, and any read operation of the variable should read from the main memory instead of local cache.</p>
+<h3 id="Using-the-volatile-keyword"><a href="#Using-the-volatile-keyword" class="headerlink" title="Using the volatile keyword"></a>Using the <code>volatile</code> keyword</h3><p>The question is how can we guarantee that read/write of a variable is read from or written to the main memory instead of the CPU cache local to the thread that is operating on the value.</p>
+<p>The answer is the <code>volatile</code> keyword. By declaring a variable as <code>volatile</code>, we tell the program any write operation to the variable should be immediately flushed to the main memory, and any read operation of the variable should read from the main memory instead of local cache.</p>
 <p>The fixed code should like this:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// the static variale `stop` is shared by the threads started below</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> stop = <span class="keyword">false</span>;</div><div class="line"></div><div class="line"><span class="comment">// the following code...</span></div></pre></td></tr></table></figure>
 <p>Run the code again. This time it is guaranteed to terminate.</p>
 <p>Another way of describing the function of <code>volatile</code> is that <code>volatile</code> guarantees the visibility of the variable among all threads that operates on it. That is to say, any read/write operation on the variable is immediately visible to other threads. By “immediately visible”, we mean the change will be immediately flushed to the main memory instead of kept in any thread’s local cache.</p>
 <h3 id="Effect-of-declaring-a-variable-as-volatile"><a href="#Effect-of-declaring-a-variable-as-volatile" class="headerlink" title="Effect of declaring a variable as volatile"></a>Effect of declaring a variable as <code>volatile</code></h3><p>In fact, the <code>volatile</code> keyword has two effect.</p>
 <ol>
-<li>Guarantees the visiblity of variable among threads.</li>
+<li>Guarantees the visibility of variable among threads.</li>
 <li>Prevent JVM from reordering instructions that involves volatile variables.</li>
 </ol>
 <p>The first one is what we’ve seen above. Let’s talk about the second one.</p>
-<p>In the above case, we mentioned that the visiblity of volatile variable is guaranteed. However, this is part of the truth. In fact, all the write operations of non-volatile variables before a volatile write and all the read operations after a volatile read are guaranteed to be performed in the main memory.</p>
+<p>In the above case, we mentioned that the visibility of volatile variable is guaranteed. However, this is part of the truth. In fact, all the write operations of non-volatile variables before a volatile write and all the read operations after a volatile read are guaranteed to be performed in the main memory.</p>
 <p>Let’s see another example:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nonVolatileInt = <span class="number">10</span>; <span class="comment">// suppose the old value is 0</span></div><div class="line">nonVolatileStr = <span class="string">"world"</span>; <span class="comment">// suppose the old value is "hello"</span></div><div class="line">volatileBoolean = <span class="keyword">true</span>; <span class="comment">// a volatile write (suppose the old value is false)</span></div></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (volatileBoolean) &#123; <span class="comment">// a volatile read</span></div><div class="line">    System.out.println(nonVolatileInt); <span class="comment">// output 10 (guaranteed visibility also)</span></div><div class="line">    System.out.println(nonVolatileStr); <span class="comment">// output "world" (guaranteed visibility also)</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -146,7 +146,7 @@
 <p>In the subsequent read, all non-volatile read occurs after a volatile read of <code>volatileBoolean</code>. All the values are read from the main memory. So the output to the console must be the updated value.</p>
 <p>The ramification of this behavior is that instructions that involves a volatile read/write CANNOT be reordered. The <code>volatile</code> keyword prevents JVM from reordering instructions that involves a volatile variable. Because reordering of such instructions may change the behavior of the code. (In other cases, JVM may reorder instructions for performance reasons as long as reordering does not change the behavior of the code.)</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nonVolatileInt = <span class="number">10</span>; <span class="comment">// suppose the old value is 0</span></div><div class="line">volatileBoolean = <span class="keyword">true</span>; <span class="comment">// a volatile write (suppose the old value is false)</span></div><div class="line">nonVolatileStr = <span class="string">"world"</span>; <span class="comment">// suppose the old value is "hello"</span></div></pre></td></tr></table></figure>
-<p>In the above code section, the visibility of <code>nonVolatileStr</code> is NOT guaranteed. Nevertheless, reorderings before or after a volatile instruction are fine.</p>
+<p>In the above code section, the visibility of <code>nonVolatileStr</code> is NOT guaranteed. Nevertheless, reordering before or after a volatile instruction are fine.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// though nonVolatileInt and nonVolatileStr are reordered, their visibility is also guaranteed after the volatile write of volatileBoolean</span></div><div class="line">nonVolatileStr = <span class="string">"world"</span>; <span class="comment">// suppose the old value is "hello"</span></div><div class="line">nonVolatileInt = <span class="number">10</span>; <span class="comment">// suppose the old value is 0</span></div><div class="line">volatileBoolean = <span class="keyword">true</span>; <span class="comment">// a volatile write (suppose the old value is false)</span></div></pre></td></tr></table></figure>
 <p>The following two figures illustrate the reordering rule.</p>
 <p><img src="/images/volatile-write.png" alt="volatile-write"></p>
@@ -155,7 +155,7 @@
 <p>In the piece of code that we mentioned first in this post, if we changed it to the following one, the program is also guaranteed to terminate.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">boolean</span> stop = <span class="keyword">false</span>;</div><div class="line"><span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> stop2 = <span class="keyword">false</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                Thread.sleep(<span class="number">100</span>);</div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">            stop = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;, <span class="string">"WRITE-THREAD"</span>).start();</div><div class="line"></div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">while</span> (!stop) &#123;</div><div class="line">                <span class="keyword">if</span> (stop2) &#123; <span class="comment">// a volatile read</span></div><div class="line">                             <span class="comment">// `stop` is also to be read from main memory</span></div><div class="line">                             <span class="comment">// in the next loop</span></div><div class="line">                    <span class="keyword">new</span> Object(); <span class="comment">// just do something here</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;, <span class="string">"READ-THREAD"</span>).start();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="Thread-safety-not-guaranteed"><a href="#Thread-safety-not-guaranteed" class="headerlink" title="Thread safety not guaranteed"></a>Thread safety not guaranteed</h3><p>A misconception exists that <code>volatile</code> is used to deal the safety issues of multithreading. Well, in a sense, yes it is. Because multiple threads that are involved in the operations on a volatile read/write can be considered as directly happening in the main memory, since flushes between CPU cache and main memory occur immediately after any read/write operation on a volatile variable. The process of read/write and flush is indivisible. The visibility of the value of the variable is guaranteed among all threads. But it is important to notice that visibility is not the same issue as atomicity.</p>
-<p>Application of <code>volatile</code> is useful when one deals with a single write thread and no less than one read threads. When more than one write threads are required, race condition can happen among differenct concurrently running write threads that writes to the same shared resource. Explicit synchronization using <code>synchronzed</code> keyword or <code>Lock</code> from <code>java.util.concurrent</code> package to synchronize different write threads are necessary.</p>
+<p>Application of <code>volatile</code> is useful when one deals with a single write thread and no less than one read threads. When more than one write threads are required, race condition can happen among different concurrently running write threads that writes to the same shared resource. Explicit synchronization using <code>synchronized</code> keyword or <code>Lock</code> from <code>java.util.concurrent</code> package to synchronize different write threads are necessary.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -186,6 +186,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/03/12/Optimistic-locking-and-CAS-algorithm/" title="Optimistic locking and CAS algorithm">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Optimistic locking and CAS algorithm</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2016/12/17/Workable-Steps-to-Set-up-Maven-in-Eclipse/"  title="Workable Steps to Set up Maven in Eclipse">
@@ -200,22 +208,22 @@
 	
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-the-volatile-keyword"><span class="toc-number">2.</span> <span class="toc-text">Using the volatile keyword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Effect-of-declaring-a-variable-as-volatile"><span class="toc-number">3.</span> <span class="toc-text">Effect of declaring a variable as volatile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread-safety-not-guaranteed"><span class="toc-number">4.</span> <span class="toc-text">Thread safety not guaranteed</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="accessun" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -227,11 +235,11 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
@@ -239,7 +247,11 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+				<li><a href="/tags/Concurrency/" title="Concurrency">Concurrency<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Multithreading/" title="Multithreading">Multithreading<sup>2</sup></a></li>
 			
 		
 			
@@ -247,19 +259,11 @@
 			
 		
 			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Database/" title="Database">Database<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
 			
 		
 			
@@ -267,15 +271,19 @@
 			
 		
 			
-				<li><a href="/tags/Concurrency/" title="Concurrency">Concurrency<sup>1</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Multithreading/" title="Multithreading">Multithreading<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -283,7 +291,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
     </ul>
@@ -511,7 +519,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
