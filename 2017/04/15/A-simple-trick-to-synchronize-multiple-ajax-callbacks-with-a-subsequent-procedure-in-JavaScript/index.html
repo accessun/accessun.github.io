@@ -4,25 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Setting up a Simple Automated Front-end Dev Workflow | Accessun&#39;s Blog</title>
+    <title>A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript | Accessun&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Xin Sun">
     
 
     
-    <meta name="description" content="Front-end development is very interesting. You can really see what’s happening when you type in your code. And dealing with HTML, CSS, and JS to build a good-looking user interface is much easier and">
+    <meta name="description" content="A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript
+In one of the projects I’m currently working on, a situation emerged where I have to use JavaScript to g">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Setting up a Simple Automated Front-end Dev Workflow">
-<meta property="og:url" content="https://accessun.github.io/2016/11/18/Setting-up-a-Simple-Automated-Front-end-Dev-Workflow/index.html">
+<meta property="og:title" content="A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript">
+<meta property="og:url" content="https://accessun.github.io/2017/04/15/A-simple-trick-to-synchronize-multiple-ajax-callbacks-with-a-subsequent-procedure-in-JavaScript/index.html">
 <meta property="og:site_name" content="Accessun's Blog">
-<meta property="og:description" content="Front-end development is very interesting. You can really see what’s happening when you type in your code. And dealing with HTML, CSS, and JS to build a good-looking user interface is much easier and">
-<meta property="og:image" content="https://accessun.github.io/images/gulp-directory-structure.png">
-<meta property="og:updated_time" content="2017-02-19T10:10:58.833Z">
+<meta property="og:description" content="A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript
+In one of the projects I’m currently working on, a situation emerged where I have to use JavaScript to g">
+<meta property="og:updated_time" content="2017-04-15T13:45:45.405Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Setting up a Simple Automated Front-end Dev Workflow">
-<meta name="twitter:description" content="Front-end development is very interesting. You can really see what’s happening when you type in your code. And dealing with HTML, CSS, and JS to build a good-looking user interface is much easier and">
-<meta name="twitter:image" content="https://accessun.github.io/images/gulp-directory-structure.png">
+<meta name="twitter:title" content="A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript">
+<meta name="twitter:description" content="A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript
+In one of the projects I’m currently working on, a situation emerged where I have to use JavaScript to g">
 
     
     
@@ -80,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/11/18/Setting-up-a-Simple-Automated-Front-end-Dev-Workflow/" title="Setting up a Simple Automated Front-end Dev Workflow" itemprop="url">Setting up a Simple Automated Front-end Dev Workflow</a>
+      <a href="/2017/04/15/A-simple-trick-to-synchronize-multiple-ajax-callbacks-with-a-subsequent-procedure-in-JavaScript/" title="A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript" itemprop="url">A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Xin Sun" target="_blank" itemprop="author">Xin Sun</a>
 		
   <p class="article-time">
-    <time datetime="2016-11-18T13:47:20.000Z" itemprop="datePublished"> 发表于 2016-11-18</time>
+    <time datetime="2017-04-15T13:44:25.000Z" itemprop="datePublished"> 发表于 2017-04-15</time>
     
   </p>
 </header>
@@ -100,18 +101,18 @@
 		
 		</div>
 		
-		<p>Front-end development is very interesting. You can really see what’s happening when you type in your code. And dealing with HTML, CSS, and JS to build a good-looking user interface is much easier and more rewarding than a very platform-targeted UI building process.</p>
-<p>As a backend developer, the first front-end things that I encountered are plain HTML and jQuery. I solely used them to manipulate DOM, and sometimes passed request parameters to the backend services using the AJAX functions provided by jQuery. I still can clearly remember when I wrote my first CSS rule and first time experience with <a href="https://getbootstrap.com/" target="_blank" rel="external">bootstrap</a>, I was totally amazed at the interface. You can build really appealing eye-candy with just a few simple CSS rules and predefined classes. The feeling just like when you meet a girl of your type when you’ve hanging out only with guys for months. At that moment, I know that I’ve felt in love with it.</p>
-<p>Like being around with a girlfriend, there are indeed some downtime. When writing front-end code. The thing that I hate most is that you always have to click the refresh button when you modify any HTML, CSS, or JS file. And after some time, I was done with it. With my hurting finger, I decided to search a for better tool. Then I came to this: <a href="http://gulpjs.com/" target="_blank" rel="external">Gulp</a>.</p>
-<p><a href="http://gulpjs.com/" target="_blank" rel="external">Gulp</a> is an automated build system that you can exploit to build your own front-end development workflow. A variety of plugins are ready to be configured that can be easily integrated into Gulp to streamline your development process. It depends on <a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>. So you have to install it on your machine.</p>
-<p>One plugin that is quite useful when you are tired of clicking the refresh button constantly during your frond-end learning and development adventure. It is browser-sync. With browser-sync, you can configure a gulp task that can automatically fired up a web server and watch any change made to the files you specify. Most of the time, the files we want it to watch is our HTML, CSS, and JS source files. Here we use a very general directory structure to explain how to use these tools to make life a lot easier.</p>
-<p><img src="/images/gulp-directory-structure.png" alt="gulp-directory-structure"></p>
-<p>As you can see in the above image, our HTML files are located in the <code>app/</code> directory. CSS and JS files are located in <code>css/</code> and <code>js/</code> directory in <code>app/</code>. In the parent directory of <code>app/</code>, we can find Gulp configuration file <code>gulpfile.js</code> and <code>node_modules</code> which contains all the plugins you installed locally. All the Node.js modules as plugins are specified in <code>package.json</code>. The following two blocks of code are the content of <code>gulpfile.js</code> and <code>package.json</code>.</p>
-<script src="https://gist.github.com/accessun/9c0b24f40f48ad2fd9529084ffe86863.js"></script>
-
-<p>To set up the working environment, first Node.js has to be installed. Once, this is done, the Node.js package manager <code>npm</code> will be right at our service. <code>npm</code> is used to install Node.js modules/packages whose concept is very similar to <code>yum</code>, <code>apt</code> in the linux world or <code>homebrew</code> on OS X or <code>Chocolatey</code> on Windows.</p>
-<p>After all the files and directories are created and with <code>gulpfile.js</code> and <code>package.json</code> correctly configured just like two block of code shown above, open a command line window (<code>cmd</code> on Windows), <code>cd</code> to the directory where <code>package.json</code> is located, type in <code>npm install</code>. This command tells <code>npm</code> to install all the packages specified in the <code>package.json</code> into the current local directory. When the installation process is completed, type in <code>gulp</code> and hit enter. Your default browser will be automatically fired up right away. From this moment on, when you save a change to any of the HTML, JS, CSS files, the browser will automatically reload modified files. Here it is a little bit different for CSS. The newly modified CSS is injected into the loaded page. No refresh is need to make the effect seen on change. Cool!</p>
-<p>This is just a simple demonstrative use of Gulp. However, one can use it as a starting point to build more complex workflow, such as compilation of CSS code from SASS or LESS source code, concatenation and compression JS and CSS files. All these tasks can be chained together into a single pipeline. If you are interested, search the web to learn more! Have fun!</p>
+		<p>A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript</p>
+<p>In one of the projects I’m currently working on, a situation emerged where I have to use JavaScript to gather all the data acquired by multiple asynchronous AJAX calls and then perform another procedure that relies on the complete data to carry out subsequent operations.</p>
+<p>The pseudocode is as follows.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dataArr = []; <span class="comment">// a shared variable</span></div><div class="line"> </div><div class="line"><span class="comment">// in one function</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; someArr.length; i++) &#123;</div><div class="line"> </div><div class="line">    <span class="comment">/*</span></div><div class="line">     * $.get(&lt;URL&gt;, &lt;params&gt;, &lt;callback_function&gt;) is a jQuery AJAX function</div><div class="line">     * used to send "GET" HTTP request to a web service identifed by &lt;URL&gt;.</div><div class="line">     */</div><div class="line">    $.get(<span class="string">'someUrl'</span>, &#123; <span class="string">'key1'</span>: <span class="string">'val1'</span>,... &#125;, <span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> elem;</div><div class="line"> </div><div class="line">        <span class="comment">// process result and assign value to elem</span></div><div class="line">        dataArr.push(elem);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="comment">// in another function</span></div><div class="line">operationRelyOnCompleteDataArr();</div></pre></td></tr></table></figure>
+<p><code>dataArr</code> is a shared variable (globally scoped in a specific namespace). Multiple methods from the same namespace where <code>dataArr</code> resides read or write to it. The <code>for</code> loop in the central part of this piece of code belongs to a function. This function launches multiple <code>GET</code> AJAX calls to backend. Each call fetches a JSON result and performs some basic processing work and pushes the processed result which is <code>elem</code> to <code>dataArr</code>. <code>operationRelyOnCompleteDataArr()</code> is a function that is dependent on a completed prepared <code>dataArr</code>. <code>operationRelyOnCompleteDataArr()</code> does not work properly unless the data are prepared.</p>
+<p>AJAX calls in JavaScript are asychronous calls which means they return immediately (do not wait for response) on sending requests out. Once responses are sent back, the main thread that interpretes and executes the code is notified and then goes back to execute the code in the corresponding callback function. So, at this point, there is no way to guarantee that <code>dataArr</code> is complete before calling <code>operationRelyOnCompleteDataArr()</code>.</p>
+<p>How to solve this? A better formulation of this question would be how to ensure that <code>operationRelyOnCompleteDataArr()</code> is carried out <em>after</em> all the procedures in those callbacks are finished.</p>
+<p>This sounds like thread cooperation problems in Java. In Java, thread cooperation is realized via <code>wait()</code> and <code>notifyAll()</code>/<code>notify()</code> (or <code>Lock</code> &amp; <code>Condition</code> in the <code>java.util.concurrent</code> package). There is a higher level tool that is used as a join point to connect multiple asychronously working threads to a final summarizing thread - <code>CountDownLatch</code>.</p>
+<p>However, since JavaScript is single threaded by design[1], we can’t actually have a exact version of <code>CountDownLatch</code> here. But the similar idea can be applied.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dataArr = []; <span class="comment">// a shared variable</span></div><div class="line"> </div><div class="line"><span class="comment">/*</span></div><div class="line">* simply a counter with a fancy name</div><div class="line">* with this variable we can modify the async procedures into a synchronous fashion</div><div class="line">*/</div><div class="line"><span class="keyword">var</span> asyncCountDownLatch = someArr.length;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; someArr.length; i++) &#123;</div><div class="line">    $.get(<span class="string">'someUrl'</span>, &#123; <span class="string">'key1'</span>: <span class="string">'val1'</span>,... &#125;, <span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> elem;</div><div class="line">        <span class="comment">// process result and assign value to elem</span></div><div class="line">        dataArr.push(elem);</div><div class="line"> </div><div class="line">        <span class="keyword">if</span> (--asyncCountDownLatch === <span class="number">0</span>) &#123;</div><div class="line">            operationRelyOnCompleteDataArr(); <span class="comment">// will be executed in the last callback</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>asyncCountDownLatch</code> is just a counter used to synchronize the <code>operationRelyOnCompleteDataArr()</code> with the above callbacks. Placing the <code>operationRelyOnCompleteDataArr()</code> outside the callbacks will not guarantee that the callbacks have a <a href="https://en.wikipedia.org/wiki/Happened-before" target="_blank" rel="external"><em>happened-before</em></a> relation with <code>operationRelyOnCompleteDataArr()</code>. Chances are this function is carried out before all callbacks get their chance to finish execution. By putting the call of the function inside the callback and using the <code>asyncCountDownLatch</code>, it is guaranteed that this function is only called as a final step during the last callback.</p>
+<p>[1] For the interpretation and execution of JavaScript code, the is only one thread. Actually, the JavaScript engine maintains multiple working threads behind the backdrop, like the ones that respond to DOM events and processing AJAX calls. <a href="http://blog.csdn.net/alex8046/article/details/51914205" target="_blank" rel="external">See the reference in Chinese</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -120,7 +121,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Front-end/">Front-end</a><a href="/tags/Gulp/">Gulp</a>
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
   </div>
 
 </div>
@@ -129,7 +130,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://accessun.github.io/2016/11/18/Setting-up-a-Simple-Automated-Front-end-Dev-Workflow/" data-title="Setting up a Simple Automated Front-end Dev Workflow | Accessun&#39;s Blog" data-tsina="null" class="share clearfix">
+	  <div data-url="https://accessun.github.io/2017/04/15/A-simple-trick-to-synchronize-multiple-ajax-callbacks-with-a-subsequent-procedure-in-JavaScript/" data-title="A simple trick to synchronize multiple ajax callbacks with a subsequent procedure in JavaScript | Accessun&#39;s Blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -142,19 +143,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/12/17/Workable-Steps-to-Set-up-Maven-in-Eclipse/" title="Workable Steps to Set up Maven in Eclipse">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Workable Steps to Set up Maven in Eclipse</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/10/16/Make-a-Tape-Photo-by-CSS/"  title="Make a Tape Photo by CSS">
+<a href="/2017/03/29/Quick-summary-on-nested-class/"  title="Quick summary on nested class">
  <strong>下一篇：</strong><br/> 
- <span>Make a Tape Photo by CSS
+ <span>Quick summary on nested class
 </span>
 </a>
 </div>
