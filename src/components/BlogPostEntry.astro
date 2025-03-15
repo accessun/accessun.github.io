@@ -23,9 +23,11 @@ const { id, title, contentIntro, pubDate, categories, readingTime, tags } =
   <a href={`/blog/${id}`} class="block">
     <div class="flex flex-wrap items-center justify-between mb-2">
       <div class="flex flex-wrap gap-2">
-        {categories.slice(0, 3).map((category) => (
-          <CategoryLabel category={category} />
-        ))}
+        {
+          categories
+            .slice(0, 3)
+            .map((category) => <CategoryLabel category={category} />)
+        }
       </div>
       <span class="text-sm text-gray-500">
         <FormattedDate date={pubDate} />

@@ -8,7 +8,7 @@
 export function truncateText(
   text: string,
   length: number,
-  suffix: string = "..."
+  suffix: string = "...",
 ): string {
   if (text.length <= length) return text;
   return text.slice(0, length - suffix.length) + suffix;
@@ -35,7 +35,7 @@ const htmlEntityDecoder = (htmlWithEntities: string) => {
     /(&amp;|&lt;|&gt;|&quot;|&#39;)/g,
     (entity: string): string => {
       return entityList[entity];
-    }
+    },
   );
   return htmlWithoutEntities;
 };

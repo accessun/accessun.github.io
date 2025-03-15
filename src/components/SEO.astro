@@ -8,20 +8,13 @@ interface Props {
 
 const baseTitleWithSlogan = SITE_TITLE;
 
-const {
-  title,
-  description = SITE_DESCRIPTION,
-  image,
-} = Astro.props;
+const { title, description = SITE_DESCRIPTION, image } = Astro.props;
 
 const titleMetaContent = title
   ? `${title} | ${baseTitleWithSlogan}`
   : baseTitleWithSlogan;
 
-const canonicalURL = new URL(
-  Astro.url.pathname,
-  Astro.site || SITE_URL
-);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || SITE_URL);
 ---
 
 <!-- Primary Meta Tags -->
